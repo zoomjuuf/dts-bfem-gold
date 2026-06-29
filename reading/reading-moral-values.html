@@ -1,0 +1,52 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>BFEM Reading – Moral Values</title> 
+ 
+<style> body{font-family:Arial;background:#f2f2f2;padding:15px} .card{background:#fff;padding:20px;border-radius:8px;max-width:540px;margin:auto} .top{font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between} .progress{background:#ddd;height:6px;border-radius:4px;margin-bottom:12px} .progress-bar{height:6px;width:0%;background:#2a7fff;border-radius:4px} .option{border:1px solid #ddd;border-radius:5px;margin:10px 0;padding:8px} .option button{width:100%;padding:8px;font-size:15px;background:#2a7fff;color:#fff;border:none;borderradius:5px} .correct{background:#e6ffe6} .wrong{background:#ffe6e6} .explain{display:none;font-size:13px;margin-top:5px} 
+.controls{margin-top:15px;display:none} </style> </head> 
+ 
+<body> 
+ 
+<div class="card"> 
+ 
+<h3>BFEM Reading – Moral Values</h3> 
+ 
+<div class="top">   <div>Score: <span id="score">0</span></div>   <div>Question <span id="qnum">1</span>/5</div> </div> 
+ 
+<div class="progress">   <div class="progress-bar" id="bar"></div> </div> 
+ 
+<p id="q"></p> <div id="opts"></div> 
+ 
+<div class="controls" id="c">   <button onclick="nextQ()">Next</button> </div> 
+ 
+</div> 
+ 
+<script> let i=0, answered=false, score=0; 
+ 
+const Q=[ ["According to the text, moral education starts with:", ["Parents at home",1,"Parents are first educators"], ["School only",0,"Too limited"], ["Social problems",0,"Not education"]], 
+ 
+["‘Young minds’ refers to:", ["Children",1,"Context shows this"], ["Parents",0,"Adults"], ["Teachers",0,"Different group"]], 
+ 
+["The best place for children’s education is:", ["Home and school",1,"Both are necessary"], 
+["Only school",0,"Incomplete"], ["Only home",0,"Incomplete"]], 
+ 
+["Why are moral values important?", ["They guide behaviour",1,"Main idea"], ["They replace laws",0,"Not stated"], ["They stop poverty",0,"Not stated"]], 
+ 
+["Which moral value is mentioned?", ["Respect",1,"Explicit value"], ["Richness",0,"Not a value"], ["Strength",0,"Not mentioned"]] ]; 
+ 
+function loadQ(){   answered=false;   document.getElementById("c").style.display="none";   document.getElementById("qnum").textContent=i+1;   document.getElementById("bar").style.width=(i/Q.length*100)+"%"; 
+ 
+  document.getElementById("q").innerHTML="<b>Question "+(i+1)+":</b><br>"+Q[i][0];   let o="";   for(let j=1;j<4;j++){     o+=`<div class="option" data-c="${Q[i][j][1]}">     <button onclick="select(this)">${Q[i][j][0]}</button>     <div class="explain">${Q[i][j][2]}</div></div>`;   }   document.getElementById("opts").innerHTML=o; } 
+ 
+function select(btn){   if(answered) return;   answered=true; 
+ 
+  document.querySelectorAll(".option").forEach(x=>{     x.querySelector(".explain").style.display="block";     if(x.dataset.c=="1") x.classList.add("correct");   }); 
+ 
+  if(btn.parentElement.dataset.c=="1"){     score++;     document.getElementById("score").textContent=score;   } else {     btn.parentElement.classList.add("wrong"); 
+  } 
+ 
+  document.getElementById("c").style.display="block"; } 
+ 
+function nextQ(){   if(i<Q.length-1){     i++;     loadQ();   } else {     document.querySelector(".card").innerHTML=       "<h3>✅ Done</h3>"+       "<p><b>Final score:</b> "+score+" / "+Q.length+"</p>"+       "<p>Reading completed.</p>";   } } 
+ 
+loadQ(); </script> 
+ 
+</body> </html> 

@@ -1,0 +1,52 @@
+  <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>BFEM Reading – Skin Bleaching</title> 
+ 
+<style> body{font-family:Arial;background:#f2f2f2;padding:15px} .card{background:#fff;padding:20px;border-radius:8px;max-width:540px;margin:auto} .top{font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between} .progress{background:#ddd;height:6px;border-radius:4px;margin-bottom:12px} .progress-bar{height:6px;width:0%;background:#2a7fff;border-radius:4px} .option{border:1px solid #ddd;border-radius:5px;margin:10px 0;padding:8px} 
+.option button{width:100%;padding:8px;font-size:15px;background:#2a7fff;color:#fff;border:none;borderradius:5px} .correct{background:#e6ffe6} .wrong{background:#ffe6e6} .explain{display:none;font-size:13px;margin-top:5px} .controls{margin-top:15px;display:none} </style> </head> 
+ 
+<body> 
+ 
+<div class="card"> 
+ 
+<h3>BFEM Reading – Skin Bleaching</h3> 
+ 
+<div class="top">   <div>Score: <span id="score">0</span></div>   <div>Question <span id="qnum">1</span>/5</div> </div> 
+ 
+<div class="progress">   <div class="progress-bar" id="bar"></div> </div> 
+ 
+<p id="q"></p> <div id="opts"></div> 
+ 
+<div class="controls" id="c">   <button onclick="nextQ()">Next</button> </div> 
+ 
+</div> 
+ 
+<script> let i=0, answered=false, score=0; 
+ 
+const Q=[ ["Why do some women bleach their skin?", ["To look beautiful and successful",1,"Main reason"], ["To save money",0,"Opposite idea"], ["For medical reasons",0,"Not stated"]], 
+ 
+["Which product is dangerous?", 
+["Hydroquinone",1,"Explicitly mentioned"], ["Soap",0,"Not mentioned"], ["Perfume",0,"Irrelevant"]], 
+ 
+["Which paragraph talks about the effects?", ["Paragraph 3",1,"Effects described"], ["Paragraph 1",0,"Introduction"], ["Paragraph 2",0,"Reasons only"]], 
+ 
+["What is a consequence of skin bleaching?", ["Health problems",1,"Clearly stated"], ["Better skin",0,"Opposite"], ["More confidence",0,"Not stated"]], 
+ 
+["Why is skin bleaching discouraged?", ["It is dangerous",1,"Main message"], ["It is expensive",0,"Not stated"], ["It is illegal",0,"Not mentioned"]] ]; 
+ 
+function loadQ(){   answered=false;   document.getElementById("c").style.display="none";   document.getElementById("qnum").textContent=i+1;   document.getElementById("bar").style.width=(i/Q.length*100)+"%"; 
+ 
+  document.getElementById("q").innerHTML="<b>Question "+(i+1)+":</b><br>"+Q[i][0];   let o="";   for(let j=1;j<4;j++){     o+=`<div class="option" data-c="${Q[i][j][1]}">     <button onclick="select(this)">${Q[i][j][0]}</button>     <div class="explain">${Q[i][j][2]}</div></div>`;   }   document.getElementById("opts").innerHTML=o; } 
+ 
+function select(btn){   if(answered) return;   answered=true; 
+ 
+  document.querySelectorAll(".option").forEach(x=>{     x.querySelector(".explain").style.display="block";     if(x.dataset.c=="1") x.classList.add("correct");   }); 
+
+   if(btn.parentElement.dataset.c=="1"){     score++;     document.getElementById("score").textContent=score;   } else {     btn.parentElement.classList.add("wrong");   } 
+ 
+  document.getElementById("c").style.display="block"; } 
+ 
+function nextQ(){   if(i<Q.length-1){     i++;     loadQ();   } else {     document.querySelector(".card").innerHTML=       "<h3>✅ Done</h3>"+       "<p><b>Final score:</b> "+score+" / "+Q.length+"</p>"+       "<p>Reading completed.</p>";   } } 
+ 
+loadQ(); </script> 
+ 
+</body> </html> 
+
